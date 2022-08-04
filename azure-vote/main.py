@@ -32,7 +32,7 @@ app_insight_key = app.config['APP_INSIGHT_KEY']
 
 logger = logging.getLogger(__name__)
 handler = AzureLogHandler(connection_string=app_insight_key)
-handler.setFormatter(logging.Formatter("%(spanId)s %(traceId)s %(message)s"))
+handler.setFormatter(logging.Formatter("%(message)s"))
 logger.addHandler(handler)
 logger.addHandler(AzureEventHandler(connection_string=app_insight_key))
 logger.setLevel(logging.INFO)
@@ -108,12 +108,12 @@ def index():
             vote1 = r.get(button1).decode('utf-8')
             properties = {'custom_dimensions': {'Cats Vote': vote1}}
             # QuyenLN2: use logger object to log cat vote
-            logger.info("Cats vote: ", extra = properties)
+            logger.info("Cats Vote: ", extra = properties)
 
             vote2 = r.get(button2).decode('utf-8')
             properties = {'custom_dimensions': {'Dogs Vote': vote2}}
             # QuyenLN2: use logger object to log dog vote
-            logger.info("Dogs vote: ", extra = properties)
+            logger.info("Dogs Vote: ", extra = properties)
             
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
 
@@ -127,12 +127,12 @@ def index():
             vote1 = r.get(button1).decode('utf-8')
             properties = {'custom_dimensions': {'Cats Vote': vote1}}
             # QuyenLN2: use logger object to log cat vote
-            logger.info("Cats vote: ", extra = properties)
+            logger.info("Cats Vote: ", extra = properties)
             
             vote2 = r.get(button2).decode('utf-8')
             properties = {'custom_dimensions': {'Dogs Vote': vote2}}
             # QuyenLN2: use logger object to log dog vote
-            logger.info("Dogs vote: ", extra = properties)
+            logger.info("Dogs Vote: ", extra = properties)
             
             # Return results
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)

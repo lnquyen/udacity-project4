@@ -46,11 +46,11 @@ view_manager.register_exporter(exporter)
 
 # Tracing
 tracer = Tracer(exporter=AzureExporter(
-    connection_string=app_insight_key), sampler=ProbabilitySampler(1.0))
+    connection_string=app_insight_key), sampler=ProbabilitySampler(1.0),)
 
 # Requests
 middleware = FlaskMiddleware(app, exporter=AzureExporter(
-    connection_string=app_insight_key), sampler=ProbabilitySampler(rate=1.0))
+    connection_string=app_insight_key), sampler=ProbabilitySampler(rate=1.0),)
 
 if ("VOTE1VALUE" in os.environ and os.environ['VOTE1VALUE']):
     button1 = os.environ['VOTE1VALUE']
@@ -125,8 +125,15 @@ def index():
 
             # Get current values
             vote1 = r.get(button1).decode('utf-8')
+            properties = {'custom_dimensions': {'Cats Vote': vote1}}
+            # QuyenLN2: use logger object to log cat vote
+            logger.info("Cats vote: ", extra = properties)
+            
             vote2 = r.get(button2).decode('utf-8')
-
+            properties = {'custom_dimensions': {'Dogs Vote': vote2}}
+            # QuyenLN2: use logger object to log dog vote
+            logger.info("Dogs vote: ", extra = properties)
+            
             # Return results
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
 
